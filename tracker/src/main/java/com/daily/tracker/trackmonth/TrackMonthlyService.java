@@ -1,6 +1,5 @@
 package com.daily.tracker.trackmonth;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +22,29 @@ public class TrackMonthlyService {
         return habitRepository.findAll();
     }
 
-    public List<TrackMonthlyEntity> getHabitMonthDone(int habitKey) {
-        return trackMonthlyRepository.findByHabitKey(habitKey);
+    public List<TrackMonthlyEntity> getMonthData(int habitKey, int year, int month) {
+        return trackMonthlyRepository.findByHabitKeyAndYearAndMonth(habitKey, year, month);
     }
 
     @Transactional
-    public void toggleHabitMonthDone(int habitKey, LocalDate date, boolean done) {
+    public void toggleHabit(
+            int habitKey,
+            int year,
+            int month,
+            int day,
+            boolean done
+    ) {
         TrackMonthlyEntity track = trackMonthlyRepository
-            .findByHabitKeyAndDone(habitKey, date)
+            .findByHabitKeyAndYearAndMonthAndDay(
+                habitKey, year, month, day
+            )
             .orElseGet(() -> {
-                TrackMonthlyEntity newTrack = new TrackMonthlyEntity();
-                newTrack.setHabitKey(habitKey);
-                newTrack.setDone(date);
-                return newTrack;
+                TrackMonthlyEntity t = new TrackMonthlyEntity();
+                t.setHabitKey(habitKey);
+                t.setYear(year);
+                t.setMonth(month);
+                t.setDay(day);
+                return t;
             });
 
         track.setStatus(done);

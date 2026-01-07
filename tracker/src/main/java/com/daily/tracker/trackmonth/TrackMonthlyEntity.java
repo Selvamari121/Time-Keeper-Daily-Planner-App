@@ -1,6 +1,5 @@
 package com.daily.tracker.trackmonth;
 
-import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,8 +23,14 @@ public class TrackMonthlyEntity {
 	@Column(name = "pk_tmid")
 	private Integer tmKey;
 
-	@Column(name = "done_date")
-	private LocalDate done;
+	@Column(name = "year")
+	private int year;   
+
+	@Column(name = "month")
+    private int month;  
+
+	@Column(name = "day")
+    private int day; 
 
 	@Column(name = "status")
 	private boolean status;
